@@ -147,12 +147,13 @@ while true; do
 		break
 		;;
 	*)
-		zenity --error \
-			--title "Error input" \
-			--width 500 \
-			--height 100 \
-			--text "It's not option"
+		#zenity --error \
+		#	--title "Error input" \
+		#	--width 500 \
+		#	--height 100 \
+		#	--text "It's not option"
 		#echo "It's not option"
+break
 		;;
 	esac
 	flag=0

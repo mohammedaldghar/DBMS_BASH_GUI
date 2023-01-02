@@ -168,12 +168,18 @@ while true; do
 		break
 		;;
 	*)
-		zenity --error \
-			--title "Wrong" \
+zenity --info \
+			--title "Bye" \
 			--width 500 \
 			--height 100 \
-			--text "Wrong Input"
+			--text "Bye... :("
 
+		#zenity --error \
+		#	--title "Wrong" \
+		#	--width 500 \
+		#	--height 100 \
+		#	--text "Wrong Input"
+		break;
 		#echo "Wrong Input"
 		;;
 	esac

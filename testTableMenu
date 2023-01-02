@@ -47,12 +47,13 @@ while true; do
 		break
 		;;
 	*)
-		zenity --error \
-			--title "Not Found" \
-			--width 500 \
-			--height 100 \
-			--text "Wrong Input"
+		#zenity --error \
+		#	--title "Not Found" \
+		#	--width 500 \
+		#	--height 100 \
+		#	--text "Wrong Input"
 		# echo "Wrong Input"
+break
 		;;
 	esac
 	#echo '1)CreateTable       2)ListTables       3)InsertTable       4)UpdateTable       5)DeleteTable       6)SelectFromTable       7)DropTable       8)Back'

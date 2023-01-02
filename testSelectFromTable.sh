@@ -268,12 +268,13 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 				break
 				;;
 			*)
-				zenity --error \
-					--title "Wrong input" \
-					--width 500 \
-					--height 100 \
-					--text "It's not option"
+				#zenity --error \
+				#	--title "Wrong input" \
+				#	--width 500 \
+				#	--height 100 \
+				#	--text "It's not option"
 				#echo "It's not option"
+break
 				;;
 			esac
 			flag=0
