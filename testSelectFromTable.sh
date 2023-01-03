@@ -14,10 +14,11 @@ flag=0
 
 tableName=$(zenity --entry \
 	--width 500 \
+	--height 100 \
 	--title "check table exist" \
 	--text "Enter table name")
-#read -r -p "Enter table name : " tableName
 
+# check regex and existence
 if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; then
 	if ! [ -f $tableName ]; then
 		zenity --error \
@@ -25,7 +26,6 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 			--width 500 \
 			--height 100 \
 			--text "Table is not exist"
-		#echo "Table is not exist"
 		tableExist=1
 	else
 		zenity --info \
@@ -33,16 +33,17 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 			--width 500 \
 			--height 100 \
 			--text "Table Found"
-		#echo "Table Found"
+
 		while true; do
 			choice=$(zenity --list \
 				--column "Select your option" \
+				--width 500 \
+				--height 300 \
 				SelectByRow \
 				SelectAllData \
 				SelectByColumn \
 				SelectDataWithEquation \
 				Back)
-			#select choice in SelectByRow SelectAllData SelectByColumn SelectDataWithEquation Back; do
 
 			if (($tableExist == 1)); then
 				break
@@ -52,19 +53,17 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 				colNames=($(sed -n -e "s/:/ /g" -e "1p" ~/DataBase/$DBName/$tableName))
 				declare -i colLength=${#colNames[@]} #len=3
 			fi
-			if (($tableExist == 1)); then
-				break
-			fi
+
 			case $choice in
-			SelectByRow)
+			SelectByRow) # select data by record
 				colName=$(zenity --entry \
 					--width 500 \
 					--title "column namer" \
 					--text "Enter column name")
-				#read -p "Enter column name: " colName
+
 				for ((i = 0; i < $colLength; i++)); do
 					if [[ $colName == ${colNames[$i]} ]]; then
-						flag=1
+						flag=1 # check column existence
 						colNumber=$i
 						echo $colNumber
 						break
@@ -76,7 +75,7 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 						--width 500 \
 						--height 100 \
 						--text "this column is not exist"
-					#echo "this column is not exist"
+
 				else
 					colNumber=$colNumber+1
 
@@ -92,24 +91,21 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 						--width 500 \
 						--title "Data" \
 						--text "Enter data you want to Select")
-					#read -p "Enter data you want to Select: " data
 
 					for ((i = 0; i < $colDataLength; i++)); do
 
 						if [[ ${colData[$i]} == $data ]]; then
 							tmp=0
-							tmp=$i+3
+							tmp=$i+3 # Exact number of record line in file
 
-							if ! [[ $data =~ $re ]]; then
+							if ! [[ $data =~ $re ]]; then # select row data
 								zenity --info \
 									--title "Your Data" \
 									--width 500 \
-									--height 100 \
+									--height 200 \
 									--text "$(sed -n ''/"$data"/p'' ./$tableName)"
-								#sed -n ''/"$data"/p'' ./$tableName
-
 							else
-								deleteLine[$counter]=$tmp
+								deleteLine[$counter]=$tmp #array that stores exact line number in file
 								((counter = $counter + 1))
 							fi
 						fi
@@ -118,9 +114,8 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 						zenity --info \
 							--title "Your Data" \
 							--width 500 \
-							--height 100 \
+							--height 200 \
 							--text "$(sed -n "${deleteLine[$i]} p" ./$tableName)"
-						#sed -n "${deleteLine[$i]} p" ./$tableName
 					done
 				fi
 				;;
@@ -128,16 +123,15 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 				zenity --info \
 					--title "Your Data" \
 					--width 500 \
-					--height 100 \
+					--height 200 \
 					--text "$(sed '1,2d' ./$tableName)"
-				#sed '1,2d' ./$tableName
 				;;
 			SelectByColumn)
 				colName=$(zenity --entry \
 					--width 500 \
 					--title "Column name" \
 					--text "Enter column name")
-				#read -p "Enter column name: " colName
+
 				for ((i = 0; i < $colLength; i++)); do
 					if [[ $colName == ${colNames[$i]} ]]; then
 						flag=1
@@ -150,7 +144,7 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 					zenity --error \
 						--title "Can't find" \
 						--width 500 \
-						--height 100 \
+						--height 200 \
 						--text "this column is not exist"
 					#echo "this column is not exist"
 				else
@@ -168,19 +162,18 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 						zenity --info \
 							--title "Your Data" \
 							--width 500 \
-							--height 100 \
+							--height 200 \
 							--text "${colData[$i]}"
-						#echo ${colData[$i]}
 					done
 				fi
 				;;
 			SelectDataWithEquation)
-				#echo "Select greater then or lower than"
+				#Select greater then or lower than
 				colName=$(zenity --entry \
 					--width 500 \
 					--title "check column" \
 					--text "Enter column name")
-				#read -p "Enter column name: " colName
+
 				for ((i = 0; i < $colLength; i++)); do
 					if [[ $colName == ${colNames[$i]} ]]; then
 						flag=1
@@ -193,9 +186,8 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 					zenity --error \
 						--title "Can't found" \
 						--width 500 \
-						--height 100 \
+						--height 200 \
 						--text "this column is not exist"
-					#echo "this column is not exist"
 				else
 					colNumber=$colNumber+1
 
@@ -211,26 +203,23 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 						--column "Select option" \
 						GreaterThan \
 						LowerThan)
-					#select record in GreaterThan LowerThan; do
+					#select record in GreaterThan LowerThan
 					case $record in
 					GreaterThan)
 						mark="g"
-						#break
 						;;
 					LowerThan)
 						mark="l"
-						#break
 						;;
 					*)
 						echo "Wrong Input..."
 						;;
 					esac
-					#done
 					comparedData=$(zenity --entry \
 						--width 500 \
 						--title "Compared Data" \
 						--text "Enter where Cluase")
-					#read -r -p "Enter where Cluase : " comparedData
+
 					declare columnNum
 					for ((i = 0; i < $colDataLength; i++)); do
 						((columnNum = $i + 3))
@@ -239,18 +228,16 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 								zenity --info \
 									--title "Your Data" \
 									--width 500 \
-									--height 100 \
+									--height 200 \
 									--text "$(sed -n "$columnNum"'p' ./$tableName)"
-								#sed -n "$columnNum"'p' ./$tableName
 							fi
 						elif [[ $mark == "l" ]]; then
 							if ((${colData[$i]} < $comparedData)); then
 								zenity --info \
 									--title "Your Data" \
 									--width 500 \
-									--height 100 \
+									--height 200 \
 									--text "$(sed -n "$columnNum p" ./$tableName)"
-								#sed -n "$columnNum p" ./$tableName
 							fi
 						else
 							zenity --error \
@@ -258,7 +245,6 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 								--width 500 \
 								--height 100 \
 								--text "No Data Found..."
-							#echo "No Data Found..."
 						fi
 					done
 				fi
@@ -268,27 +254,17 @@ if [[ $tableName =~ $regexChar && $tableName != *' '* && $tableName != $re ]]; t
 				break
 				;;
 			*)
-				zenity --error \
-					--title "Wrong input" \
-					--width 500 \
-					--height 100 \
-					--text "It's not option"
-				#echo "It's not option"
+				break
 				;;
 			esac
 			flag=0
-			#echo "1)SelectByRow        2)SelectAllData        3)SelectByColumn        4)SelectDataWithEquation        5)Back"
 		done
-
 	fi
-
 else
 	zenity --error \
 		--title "Wrong input" \
 		--width 500 \
 		--height 100 \
 		--text "Wrong Format..."
-	#echo "Wrong Format..."
 	tableExist=1
 fi
-

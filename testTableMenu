@@ -5,7 +5,8 @@ shopt -s extglob
 while true; do
 	choice=$(zenity --list \
 		--column "Choose your option" \
-		CreateTable \
+		--width 500 \
+		--height 300 CreateTable \
 		ListTables \
 		InsertTable \
 		UpdateTable \
@@ -14,47 +15,37 @@ while true; do
 		DropTable \
 		Back)
 
-	#select choice in CreateTable ListTables InsertTable UpdateTable DeleteTable SelectFromTable DropTable Back; do
-
 	case $choice in
 	CreateTable)
-		~/TEST/testCreateTable.sh
+		~/DBMS_BASH_GUI/testCreateTable.sh
 		;;
 	ListTables)
 		zenity --info \
 			--title "Tables" \
 			--width 500 \
-			--height 100 \
+			--height 300 \
 			--text "$(ls -l)"
-		#   ls -l
 		;;
 	InsertTable)
-		~/TEST/testInsertTable.sh
+		~/DBMS_BASH_GUI/testInsertTable.sh
 		;;
 	UpdateTable)
-		~/TEST/testUpdateTable
+		~/DBMS_BASH_GUI/testUpdateTable
 		;;
 	DeleteTable)
-		~/TEST/testDeleteRecord.sh
+		~/DBMS_BASH_GUI/testDeleteRecord.sh
 		;;
 	SelectFromTable)
-		~/TEST/testSelectFromTable.sh
+		~/DBMS_BASH_GUI/testSelectFromTable.sh
 		;;
 	DropTable)
-		~/TEST/testDropTable.sh
+		~/DBMS_BASH_GUI/testDropTable.sh
 		;;
 	Back)
 		break
 		;;
 	*)
-		zenity --error \
-			--title "Not Found" \
-			--width 500 \
-			--height 100 \
-			--text "Wrong Input"
-		# echo "Wrong Input"
+		break
 		;;
 	esac
-	#echo '1)CreateTable       2)ListTables       3)InsertTable       4)UpdateTable       5)DeleteTable       6)SelectFromTable       7)DropTable       8)Back'
 done
-
