@@ -45,7 +45,17 @@ while true; do
 		break
 		;;
 	*)
+<<<<<<< HEAD
 		break
+=======
+		#zenity --error \
+		#	--title "Not Found" \
+		#	--width 500 \
+		#	--height 100 \
+		#	--text "Wrong Input"
+		# echo "Wrong Input"
+break
+>>>>>>> 7d56398de634194ec2b3d0035a67d09396090de1
 		;;
 	esac
 done

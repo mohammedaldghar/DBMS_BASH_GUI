@@ -137,12 +137,27 @@ while true; do
 		break
 		;;
 	*)
+<<<<<<< HEAD
 		zenity --info \
+=======
+zenity --info \
+>>>>>>> 7d56398de634194ec2b3d0035a67d09396090de1
 			--title "Bye" \
 			--width 500 \
 			--height 100 \
 			--text "Bye... :("
+<<<<<<< HEAD
 		break
+=======
+
+		#zenity --error \
+		#	--title "Wrong" \
+		#	--width 500 \
+		#	--height 100 \
+		#	--text "Wrong Input"
+		break;
+		#echo "Wrong Input"
+>>>>>>> 7d56398de634194ec2b3d0035a67d09396090de1
 		;;
 	esac
 

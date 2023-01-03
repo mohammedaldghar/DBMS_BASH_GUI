@@ -74,7 +74,11 @@ if ! [[ $columnNumber == 0 ]]; then
                     {
                         if($column==oldValue)
                         {
+<<<<<<< HEAD
                             $column=newValue
+=======
+                            sub(oldValue,newValue)
+>>>>>>> 7d56398de634194ec2b3d0035a67d09396090de1
                             print $0
                         }
                         i++;
